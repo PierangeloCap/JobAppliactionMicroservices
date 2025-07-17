@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.PierCap.jobms.job.dto.JobWithCompanyDTO;
+import com.PierCap.jobms.job.dto.JobDTO;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,8 +28,8 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<JobWithCompanyDTO>> findAll(){
-        List<JobWithCompanyDTO> jobs = jobService.findAll();
+    public ResponseEntity<List<JobDTO>> findAll(){
+        List<JobDTO> jobs = jobService.findAll();
         if (jobs != null){
             return new ResponseEntity<>(jobs, HttpStatus.OK);
         }
@@ -44,11 +44,11 @@ public class JobController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Job> findJobById(@PathVariable Long id){
+    public ResponseEntity<JobDTO> findJobById(@PathVariable Long id){
 
-        Job job = jobService.findJobById(id);
-        if (job != null){
-            return new ResponseEntity<>(job, HttpStatus.OK);
+        JobDTO jobWithCompanyDTO = jobService.findJobById(id);
+        if (jobWithCompanyDTO != null){
+            return new ResponseEntity<>(jobWithCompanyDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -2,15 +2,15 @@ package com.PierCap.jobms.job;
 
 import java.util.List;
 
-import com.PierCap.jobms.job.dto.JobWithCompanyDTO;
+import com.PierCap.jobms.job.dto.JobDTO;
 
 public interface JobService {
     
-    List<JobWithCompanyDTO> findAll();
+    List<JobDTO> findAll();
 
     void createJob(Job job);
 
-    Job findJobById(Long id);
+    JobDTO findJobById(Long id);
 
     boolean deleteJobById(Long id);
 
