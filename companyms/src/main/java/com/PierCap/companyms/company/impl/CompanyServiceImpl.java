@@ -8,17 +8,21 @@ import org.springframework.stereotype.Service;
 import com.PierCap.companyms.company.Company;
 import com.PierCap.companyms.company.CompanyRepository;
 import com.PierCap.companyms.company.CompanyService;
+import com.PierCap.companyms.company.clients.ReviewClient;
+import com.PierCap.companyms.company.dto.ReviewMessage;
 
 
 @Service
 public class CompanyServiceImpl implements CompanyService{
 
     private CompanyRepository companyRepository;
+    private ReviewClient reviewClient;
 
     
 
-    public CompanyServiceImpl(CompanyRepository companyRepository) {
+    public CompanyServiceImpl(CompanyRepository companyRepository, ReviewClient reviewClient) {
         this.companyRepository = companyRepository;
+        this.reviewClient=reviewClient;
     }
 
 
@@ -70,5 +74,18 @@ public class CompanyServiceImpl implements CompanyService{
     public Company getCompanyById(Long id) {
         return companyRepository.findById(id).orElse(null);
     }
+
+
+
+    @Override
+    public void updateCompanyRating(ReviewMessage reviewMessage) {
+        Company company = companyRepository.findById(reviewMessage.getCompanyId()).orElseThrow();
+        double averageRating = reviewClient.getAverageRatingFotCompany(reviewMessage.getCompanyId());
+        company.setRating(averageRating);
+        companyRepository.save(company);   
+    }
+
+
+
     
 }

@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.PierCap.reviewms.review.messaging.ReviewMessageProducer;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ReviewController {
     
     private ReviewService reviewService;
+    private ReviewMessageProducer reviewMessageProducer;
 
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, ReviewMessageProducer reviewMessageProducer) {
         this.reviewService = reviewService;
+        this.reviewMessageProducer=reviewMessageProducer;
     }
 
     @GetMapping     
@@ -35,6 +39,7 @@ public class ReviewController {
     public ResponseEntity<String> createReview(@RequestParam Long companyId, @RequestBody Review review){
         boolean isReviewSaved = reviewService.createReview(companyId, review);
         if (isReviewSaved){
+            reviewMessageProducer.sendMessage(review);
             return new ResponseEntity<>("review successfully created", HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -63,5 +68,12 @@ public class ReviewController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/averageRating")
+    public Double etAverageReview(@RequestParam Long  id) {
+        List<Review> reviews = reviewService.getAllReviews(id);
+        return reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+    }
+    
     
 }

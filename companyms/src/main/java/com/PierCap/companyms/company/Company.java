@@ -13,9 +13,12 @@ public class Company {
     private Long id;
     private String name;
     private String description;
+    private Double rating;
 
     public Company() {
     }
+
+    
 
     public Long getId() {
         return id;
@@ -39,6 +42,18 @@ public class Company {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+
+    public Double getRating() {
+        return rating;
+    }
+
+
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     
