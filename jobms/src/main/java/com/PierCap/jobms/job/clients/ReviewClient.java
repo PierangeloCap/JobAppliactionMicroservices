@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.PierCap.jobms.job.external.Review;
 
-@FeignClient(name = "REVIEWMS")
+@FeignClient(name = "REVIEWMS", url = "${reviewms.url}")
 public interface ReviewClient {
     
     @GetMapping("/reviews")

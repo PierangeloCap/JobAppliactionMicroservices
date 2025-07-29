@@ -13,7 +13,7 @@ public class RabbitMQConfiuration {
 
     @Bean
     public Queue companyRatngQueue(){
-        return new Queue("companyRatingQueue");
+        return new Queue("companyRatingQueue", true);
     }
 
     @Bean
