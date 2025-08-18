@@ -38,25 +38,26 @@ Ogni servizio comunica con **PostgreSQL** e interagisce tramite code asincrone u
 
 ### ▶️ Avvio
 
-```bash
+bash
 docker-compose up --build
 
-Servizi disponibili:
-Servizio	Porta	URL
-companyms	8001	http://localhost:8001
-jobms	8002	http://localhost:8002
-reviewms	8003	http://localhost:8003
-PostgreSQL	5432	(interno, non esposto)
-RabbitMQ UI	15672	http://localhost:15672
-RabbitMQ AMQP	5672	(porta AMQP standard)
+## Servizi disponibili:
 
-🔐 RabbitMQ UI Login:
+    Servizio	    Porta	URL
+    companyms	    8001	http://localhost:8001
+    jobms	        8002	http://localhost:8002
+    reviewms	    8003	http://localhost:8003
+    PostgreSQL	    5432	(interno, non esposto)
+    RabbitMQ UI	    15672	http://localhost:15672
+    RabbitMQ AMQP	5672	(porta AMQP standard)
 
-Username: guest
+## 🔐 RabbitMQ UI Login:
 
-Password: guest
+    Username: guest
 
-💾 Database: PostgreSQL
+    Password: guest
+
+## 💾 Database: PostgreSQL
 
 Ogni microservizio utilizza un database dedicato o uno schema separato. Le connessioni vengono configurate tramite variabili d'ambiente.
 
@@ -67,7 +68,7 @@ User: postgres
 Password: postgres
 Database: company_db / job_db / review_db
 
-📬 Messaggistica: RabbitMQ
+## 📬 Messaggistica: RabbitMQ
 
 I microservizi comunicano in modo asincrono tramite RabbitMQ. Esempi d’uso:
 
@@ -79,8 +80,9 @@ Esempio Exchange
 Exchange	Tipo	Coda	Consumer
 company.events	topic	jobms.company.created	jobms
 		reviewms.company.created	reviewms
-☸️ Deploy su Kubernetes
-✅ Requisiti
+
+# ☸️ Deploy su Kubernetes
+## ✅ Requisiti
 
 Cluster Kubernetes (minikube, kind, GKE, etc.)
 
@@ -88,7 +90,7 @@ kubectl configurato
 
 (Opzionale) Helm
 
-▶️ Deploy Manuale
+### ▶️ Deploy Manuale
 kubectl apply -f k8s/postgres/
 kubectl apply -f k8s/rabbitmq/
 kubectl apply -f k8s/companyms/
@@ -102,9 +104,9 @@ kubectl get pods
 kubectl get svc
 
 
-📎 Consigliato: usare Ingress o LoadBalancer per accedere ai servizi dall’esterno.
+# 📎 Consigliato: usare Ingress o LoadBalancer per accedere ai servizi dall’esterno.
 
-📁 Struttura del Progetto
+# 📁 Struttura del Progetto
 .
 ├── companyms/
 │   └── Dockerfile
@@ -121,20 +123,20 @@ kubectl get svc
 ├── docker-compose.yaml
 └── README.md
 
-🧪 Testing API e Code
+# 🧪 Testing API e Code
 
 Puoi testare localmente con:
 
-📬 API REST
+# 📬 API REST
 curl http://localhost:8001/companies
 curl http://localhost:8002/jobs
 curl http://localhost:8003/reviews
 
-🕸️ RabbitMQ UI
+# 🕸️ RabbitMQ UI
 
 Vai su http://localhost:15672 per gestire code, exchange, binding e monitoraggio.
 
-🔐 Sicurezza & Best Practice
+# 🔐 Sicurezza & Best Practice
 
 Usa Secrets su Kubernetes per credenziali DB e RabbitMQ
 
@@ -144,6 +146,6 @@ Implementa retry/backoff per la messaggistica
 
 Configura healthcheck & liveness probe per i pod
 
-👥 Autori
+# 👥 Autori
 
 Progetto sviluppato da PierCap
